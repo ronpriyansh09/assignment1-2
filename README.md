@@ -1,10 +1,31 @@
-# Getting Started with Create React App
+# Securelytix Assignment
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project implements a responsive login page and dashboard for Securelytix with client and employee management features.
 
-## Available Scripts
+## Features
 
-In the project directory, you can run:
+### Login Page
+- Responsive design for all screen sizes
+- Email and password validation
+- Show/hide password toggle
+- Remember me functionality
+
+### Dashboard
+- Client dropdown with details display
+- Employee dropdown with details display
+- Responsive layout
+
+## Technologies Used
+
+- React.js
+- React Router for navigation
+- Formik and Yup for form validation
+- CSS for styling
+
+## Setup Instructions
+
+1. Clone the repository
+2. Install dependencies:
 
 ### `npm start`
 

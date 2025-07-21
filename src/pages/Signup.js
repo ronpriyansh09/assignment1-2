@@ -28,20 +28,34 @@ const Signup = () => {
 
   // Handle form submission
   const handleSubmit = (values, { setSubmitting }) => {
-    // Store user info in localStorage
-    localStorage.setItem('userName', values.name);
-    localStorage.setItem('userEmail', values.email);
-    localStorage.setItem('userPassword', values.password); // Note: In a real app, never store passwords in plain text
+    // Create a users array in localStorage if it doesn't exist
+    const existingUsers = JSON.parse(localStorage.getItem('registeredUsers') || '[]');
+    
+    // Check if user already exists
+    if (existingUsers.some(user => user.email === values.email)) {
+        alert('A user with this email already exists!');
+        setSubmitting(false);
+        return;
+    }
+    
+    // Add new user to the array
+    const newUser = {
+        name: values.name,
+        email: values.email,
+        password: values.password // In a real app, this should be hashed
+    };
+    
+    existingUsers.push(newUser);
+    localStorage.setItem('registeredUsers', JSON.stringify(existingUsers));
     
     console.log('Signup values:', values);
     
-    // Simulate account creation
     setTimeout(() => {
-      setSubmitting(false);
-      // Redirect to login page
-      navigate('/');
+        setSubmitting(false);
+        // Redirect to login page
+        navigate('/');
     }, 1000);
-  };
+};
 
   return (
     <div className="login-container">

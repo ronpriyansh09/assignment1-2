@@ -24,26 +24,40 @@ const Login = () => {
   });
 
   // Handle form submission
-  const handleSubmit = (values, { setSubmitting }) => {
-    // In a real app, you would validate credentials with an API
-    console.log('Login values:', values);
+  const handleSubmit = (values, { setSubmitting, setFieldError }) => {
+    // Get registered users from localStorage
+    const registeredUsers = JSON.parse(localStorage.getItem('registeredUsers') || '[]');
+    
+    // Find matching user
+    const user = registeredUsers.find(
+        u => u.email === values.email && u.password === values.password
+    );
+    
+    if (!user) {
+        setFieldError('email', 'Invalid email or password');
+        setFieldError('password', 'Invalid email or password');
+        setSubmitting(false);
+        return;
+    }
+    
+    // Store user info in localStorage if rememberMe is checked
+    if (rememberMe) {
+        localStorage.setItem('userEmail', values.email);
+        localStorage.setItem('userPassword', values.password);
+    } else {
+        localStorage.removeItem('userEmail');
+        localStorage.removeItem('userPassword');
+    }
     
     // Simulate successful login
     setTimeout(() => {
-      setSubmitting(false);
-      // Store user info in localStorage if rememberMe is checked
-      if (rememberMe) {
-        localStorage.setItem('userEmail', values.email);
-        // In a real app, never store passwords in plain text
-        localStorage.setItem('userPassword', values.password);
-      } else {
-        localStorage.removeItem('userEmail');
-        localStorage.removeItem('userPassword');
-      }
-      // Redirect to dashboard
-      navigate('/dashboard');
+        setSubmitting(false);
+        // Store current user info
+        localStorage.setItem('currentUser', JSON.stringify(user));
+        // Redirect to dashboard
+        navigate('/dashboard');
     }, 1000);
-  };
+};
 
   return (
     <div className="login-container">
